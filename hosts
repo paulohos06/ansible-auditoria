@@ -1,0 +1,16 @@
+[linux]
+centos
+opensuse
+ubuntu
+
+[server_centos]
+centos
+
+[server_suse]
+opensuse
+
+[server_ubuntu]
+ubuntu
+
+[all:vars]
+ansible_python_interpreter="/usr/bin/env python"
