@@ -1,4 +1,4 @@
-# B.E - SecureIT
+# B.E - SecureIT (Auditoria e Compliance de Segurança)
 
 ![Packagist License](https://img.shields.io/packagist/l/doctrine/orm?style=for-the-badge)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
