@@ -1,6 +1,6 @@
 # B.E - SecureID
 
-![Packagist License](https://img.shields.io/packagist/l/doctrine/orm?style=for-the-badge)
+![Packagist License](https://github.com/paulohos06/ansible-auditoria/blob/main/LICENSE.md)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
 ![Ansible](https://img.shields.io/badge/ansible-%231A1918.svg?style=for-the-badge&logo=ansible&logoColor=white)
