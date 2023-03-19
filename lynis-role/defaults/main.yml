@@ -1,0 +1,8 @@
+---
+# defaults file for lynis-role
+
+lynis_report_directory: "/opt/lynis_reports"
+lynis_quick_report: "{{ lynis_report_directory }}/quick"
+lynis_full_report: "{{ lynis_report_directory }}/full"
+lynis_pentest_report: "{{ lynis_report_directory }}/pentest"
+lynis_output: "audit-{{ ansible_date_time.iso8601 }}.txt"

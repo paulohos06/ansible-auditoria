@@ -1,0 +1,8 @@
+---
+# vars file for lynis-role
+
+_lynis_requirements:
+  default: [ git, bash ]
+  RedHat: [ git, bash, findutils, epel-release ]
+
+lynis_requirements: "{{ _lynis_requirements[ansible_os_family] | default(_lynis_requirements['default']) }}"

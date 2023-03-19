@@ -1,0 +1,18 @@
+---
+# assert file
+
+- name: Check if lynis destination folder is set correctly
+  ansible.builtin.assert:
+    that: [ lynis_destination is defined, lynis_destination is string ]
+    quiet: yes
+
+- name: Check if lynis_version is set correctly
+  ansible.builtin.assert:
+    that: [ lynis_version is defined, lynis_version is string ]
+    quiet: yes
+
+
+- name: Check if lynis_output name is set correctly
+  ansible.builtin.assert:
+    that: [ lynis_output is defined, lynis_output is string ]
+    quiet: yes

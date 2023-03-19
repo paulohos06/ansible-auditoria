@@ -1,0 +1,48 @@
+---
+# tasks file for lynis-role
+
+- name: Install requirements
+  ansible.builtin.package:
+    name: "{{ lynis_requirements }}"
+  tags: [ config ]
+
+- name: Install lynis
+  ansible.builtin.package:
+    name: lynis
+    state: latest
+  tags: [ config ]
+
+- name: Creates reports directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  loop: [ "{{ lynis_full_report }}", "{{ lynis_pentest_report }}" ]
+  tags: [ config ]
+
+- name: Schedule cronjob
+  ansible.builtin.copy:
+    src: lynis_cronjob.sh
+    dest: /etc/cron.hourly
+    owner: root
+    group: root
+    mode: 0744
+  tags: [ config ]
+
+- name: Full audit system
+  become: true
+  ansible.builtin.shell:
+    cmd: "set -o pipefail ; lynis audit system  --auditor 'B.E SecureIT' | tee -a {{ lynis_full_report }}/{{ lynis_output }}"
+    creates: "{{ lynis_full_report }}/{{ lynis_output }}"
+    executable: /bin/bash
+  register: lynis_full_audit_system
+  tags: [ report, lynis_full ]
+
+- name: Pentest audit system
+  ansible.builtin.shell:
+    cmd: "set -o pipefail ; lynis audit system --pentest  --auditor 'B.E SecureIT' | tee -a {{ lynis_full_report }}/{{ lynis_output }}"
+    creates: "{{ lynis_full_report }}/{{ lynis_output }}"
+    executable: /bin/bash
+  register: lynis_full_audit_system
+  tags: [ report, lynis_pentest]
+

@@ -1,0 +1,14 @@
+galaxy_info:
+  author: Paulo @paulohos06
+  description: Audit - install and configure auditd on your system
+  license: MIT
+  min_ansible_version: 2.1
+  platforms:
+    - name: CentOS
+      versions: all
+    - name: opensuse
+      versions: all
+    - name: Ubuntu
+      versions: all
+  galaxy_tags: [ auditd ]
+dependencies: []

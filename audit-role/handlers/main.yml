@@ -1,0 +1,12 @@
+---
+# handlers file for audit-role
+
+- name: Run augenrules
+  ansible.builtin.command:
+    cmd: augenrules --load
+
+- name: Restart auditd
+  ansible.builtin.service:
+    name: "{{ auditd_service }}"
+    state: restarted
+    use: service

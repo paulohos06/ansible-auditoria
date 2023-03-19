@@ -1,0 +1,8 @@
+---
+# playbooks file
+
+- name: "B.E - SecureIT (Security Compliance and Audit)"
+  hosts: linux
+  become: yes
+  roles: [ audit-role, lynis-role ]
+

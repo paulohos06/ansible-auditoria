@@ -1,2 +1,4 @@
 .access_key
 .prereq.sh
+remote_output
+openscap-role
