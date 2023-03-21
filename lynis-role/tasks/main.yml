@@ -23,7 +23,7 @@
 - name: Schedule cronjob
   ansible.builtin.copy:
     src: lynis_cronjob.sh
-    dest: /etc/cron.hourly
+    dest: /etc/cron.weekly
     owner: root
     group: root
     mode: 0744
@@ -36,7 +36,7 @@
     creates: "{{ lynis_full_report }}/{{ lynis_output }}"
     executable: /bin/bash
   register: lynis_full_audit_system
-  tags: [ report, lynis_full ]
+  tags: [ lynis_full ]
 
 - name: Pentest audit system
   ansible.builtin.shell:
@@ -44,5 +44,18 @@
     creates: "{{ lynis_full_report }}/{{ lynis_output }}"
     executable: /bin/bash
   register: lynis_full_audit_system
-  tags: [ report, lynis_pentest]
+  tags: [ lynis_pentest ]
 
+- name: Mark the last file in reports directory
+  ansible.builtin.shell:
+    cmd: "ls {{ lynis_full_report }} -Ahtr | tail -n1"
+    executable: /bin/bash
+  register: last_report_file
+  tags: [ report ]
+
+- name: Get full report logs
+  ansible.builtin.fetch:
+    src: "{{ lynis_full_report }}/{{ last_report_file.stdout }}"
+    dest: "~/ansible/remote-logs/{{ inventory_hostname }}/lynis/"
+    flat: yes
+  tags: [ report ]

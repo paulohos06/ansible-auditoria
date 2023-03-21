@@ -58,3 +58,10 @@
     executable: /bin/bash
   register: audit_report
   tags: [ report ]
+
+- name: Get report logs
+  ansible.builtin.fetch:
+    src: "{{ auditd_log_file }}"
+    dest: "~/ansible/remote-logs/{{ inventory_hostname }}/audit/{{ auditd_report_output }}"
+    flat: yes
+  tags: [ report ]

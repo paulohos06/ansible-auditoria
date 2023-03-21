@@ -1,4 +1,6 @@
 .access_key
 .prereq.sh
 remote_output
-openscap-role
+.venv 
+python/ 
+remote-logs/
