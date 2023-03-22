@@ -57,11 +57,18 @@
     chdir: "{{ auditd_report_directory }}"
     executable: /bin/bash
   register: audit_report
+  tags: [ auditd_scan ]
+
+- name: Mark the last file in reports directory
+  ansible.builtin.shell:
+    cmd: "ls {{ auditd_report_directory }} -Ahtr | tail -n1"
+    executable: /bin/bash
+  register: last_report_file
   tags: [ report ]
 
 - name: Get report logs
   ansible.builtin.fetch:
-    src: "{{ auditd_log_file }}"
+    src: "{{ auditd_report_directory }}/{{ last_report_file.stdout }}"
     dest: "~/ansible/reports/audit/"
     flat: yes
   tags: [ report ]
