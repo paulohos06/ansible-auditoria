@@ -5,7 +5,7 @@
 ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
 ![Ansible](https://img.shields.io/badge/ansible-%231A1918.svg?style=for-the-badge&logo=ansible&logoColor=white)
 
-![alt text](https://raw.githubusercontent.com/paulohos06/ansible-auditoria/main/images/BE%20SecureIT%20ID.png)
+![alt text](https://raw.githubusercontent.com/paulohos06/ansible-auditoria/main/assets/images/brand.png)
 
 ### **Auditoria e Compliance de Segurança**
 
