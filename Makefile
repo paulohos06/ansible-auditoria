@@ -1,7 +1,10 @@
-.SILENT: config report
+.SILENT: config lint report
 
 config:
 	ansible-playbook src/playbook.yml --tags config
+
+lint:
+	ansible-lint src/playbook.yml
 
 full_scan:
 	ansible-playbook src/playbook.yml --tags auditd_scan, lynis_full

@@ -4,7 +4,8 @@ main() {
   sudo apt update;
   sudo apt install -y software-properties-common;
   sudo add-apt-repository --yes --update ppa:ansible/ansible;
-  sudo apt install -y python3.8 ansible wget curl python-is-python3 ansible-lint ansi2html wkhtmltopdf poppler-utils
+  sudo apt install -y git python3.8 ansible wget curl ansible-lint wkhtmltopdf poppler-utils
+  sudo ln -s /usr/bin/python3 /usr/bin/python;
 }
 
 main
