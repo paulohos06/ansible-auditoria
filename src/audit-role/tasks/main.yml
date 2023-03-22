@@ -62,6 +62,6 @@
 - name: Get report logs
   ansible.builtin.fetch:
     src: "{{ auditd_log_file }}"
-    dest: "~/ansible/remote-logs/{{ inventory_hostname }}/audit/{{ auditd_report_output }}"
+    dest: "~/ansible/reports/audit/"
     flat: yes
   tags: [ report ]

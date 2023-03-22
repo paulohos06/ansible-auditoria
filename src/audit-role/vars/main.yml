@@ -12,7 +12,7 @@ auditd_config_directory: /etc/audit
 auditd_config_file: auditd.conf
 auditd_custom_rules_directory: rules.d
 auditd_report_directory: /opt/audit_reports
-auditd_report_output: "auditd-{{ ansible_date_time.iso8601 }}"
+auditd_report_output: "{{ inventory_hostname }}-auditd-{{ ansible_date_time.iso8601 }}.txt"
 auditd_service: auditd
 _auditd_permissions:
   read: r

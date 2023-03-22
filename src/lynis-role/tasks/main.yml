@@ -56,6 +56,6 @@
 - name: Get full report logs
   ansible.builtin.fetch:
     src: "{{ lynis_full_report }}/{{ last_report_file.stdout }}"
-    dest: "~/ansible/remote-logs/{{ inventory_hostname }}/lynis/"
+    dest: "~/ansible/reports/lynis/"
     flat: yes
   tags: [ report ]

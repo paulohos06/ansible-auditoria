@@ -1,6 +1,3 @@
 .access_key
-.prereq.sh
-remote_output
 .venv 
-python/ 
-remote-logs/
+reports
