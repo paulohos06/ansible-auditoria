@@ -26,7 +26,7 @@
     path: "{{ item }}"
     state: directory
     mode: 0755
-  loop: [ "{{ lynis_full_report }}", "{{ lynis_pentest_report }}" ]
+  loop: [ "{{ lynis_devops_report }}", "{{ lynis_full_report }}", "{{ lynis_pentest_report }}" ]
   tags: [ config ]
 
 - name: Schedule cronjob
@@ -41,7 +41,7 @@
 - name: DevOps audit system
   become: true
   ansible.builtin.shell:
-    cmd: "set -o pipefail ; lynis --devops --auditor 'B.E SecureIT' | tee -a {{ lynis_full_report }}/{{ lynis_output }}"
+    cmd: "set -o pipefail ; lynis --devops --auditor 'B.E SecureIT' | tee -a {{ lynis_devops_report }}/{{ lynis_output }}"
     creates: "{{ lynis_full_report }}/{{ lynis_output }}"
     executable: /bin/bash
   tags: [ lynis_devops ]
