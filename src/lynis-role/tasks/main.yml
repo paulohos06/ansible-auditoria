@@ -6,10 +6,19 @@
     name: "{{ lynis_requirements }}"
   tags: [ config ]
 
-- name: Install lynis
-  ansible.builtin.package:
-    name: lynis
-    state: latest
+- name: Lynis on debian-like systems
+  ansible.builtin.include_tasks: setup-deb.yml
+  when: ansible_distribution_file_variety == "Debian"
+  tags: [ config ]
+
+- name: Lynis on redhat-like systems
+  ansible.builtin.include_tasks: setup-rhel.yml
+  when: ansible_distribution_file_variety == "RedHat"
+  tags: [ config ]
+
+- name: Lynis on suse-like systems
+  ansible.builtin.include_tasks: setup-suse.yml
+  when: ansible_distribution_file_variety == "SUSE"
   tags: [ config ]
 
 - name: Creates reports directory
@@ -29,21 +38,27 @@
     mode: 0744
   tags: [ config ]
 
+- name: DevOps audit system
+  become: true
+  ansible.builtin.shell:
+    cmd: "set -o pipefail ; lynis --devops --auditor 'B.E SecureIT' | tee -a {{ lynis_full_report }}/{{ lynis_output }}"
+    creates: "{{ lynis_full_report }}/{{ lynis_output }}"
+    executable: /bin/bash
+  tags: [ lynis_devops ]
+
 - name: Full audit system
   become: true
   ansible.builtin.shell:
-    cmd: "set -o pipefail ; lynis audit system  --auditor 'B.E SecureIT' | tee -a {{ lynis_full_report }}/{{ lynis_output }}"
+    cmd: "set -o pipefail ; lynis audit system --auditor 'B.E SecureIT' | tee -a {{ lynis_full_report }}/{{ lynis_output }}"
     creates: "{{ lynis_full_report }}/{{ lynis_output }}"
     executable: /bin/bash
-  register: lynis_full_audit_system
   tags: [ lynis_full ]
 
 - name: Pentest audit system
   ansible.builtin.shell:
-    cmd: "set -o pipefail ; lynis audit system --pentest  --auditor 'B.E SecureIT' | tee -a {{ lynis_full_report }}/{{ lynis_output }}"
+    cmd: "set -o pipefail ; lynis --pentest --auditor 'B.E SecureIT' | tee -a {{ lynis_pentest_report }}/{{ lynis_output }}"
     creates: "{{ lynis_full_report }}/{{ lynis_output }}"
     executable: /bin/bash
-  register: lynis_full_audit_system
   tags: [ lynis_pentest ]
 
 - name: Mark the last file in reports directory

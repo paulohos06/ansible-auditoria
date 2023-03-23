@@ -1,0 +1,21 @@
+---
+# lynis rhel-like setup file
+# https://packages.cisofy.com/community/
+
+
+- name: RHEL - add CISOfy lynis repository
+  ansible.builtin.yum_repository:
+    name: "lynis"
+    description: "CISOfy Software - Lynis package"
+    baseurl: "https://packages.cisofy.com/community/lynis/rpm/"
+    enabled: yes
+    gpgkey: "https://packages.cisofy.com/keys/cisofy-software-rpms-public.key"
+    gpgcheck: yes
+  tags: [ config ]
+
+- name: RHEL - install lynis
+  ansible.builtin.yum:
+    name: "lynis"
+    state: present
+    update_cache: yes
+  tags: [ config ]

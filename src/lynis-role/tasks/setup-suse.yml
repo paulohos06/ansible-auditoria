@@ -1,0 +1,24 @@
+---
+# lynis suse-like setup file
+# https://packages.cisofy.com/community/
+
+- name: SUSE - add CISOfy repository key
+  ansible.builtin.rpm_key:
+    key: "https://packages.cisofy.com/keys/cisofy-software-rpms-public.key"
+    validate_certs: no
+    state: present
+  tags: [ config ]
+
+- name: SUSE - add CISOfy lynis repository
+  ansible.builtin.zypper_repository:
+    name: "lynis"
+    description: "CISOfy Lynis repository"
+    repo: 'https://packages.cisofy.com/community/lynis/rpm/'
+    state: present
+  tags: [ config ]
+
+- name: SUSE - install lynis
+  ansible.builtin.zypper:
+    name: "lynis"
+    state: present
+  tags: [ config ]

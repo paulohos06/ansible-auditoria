@@ -1,0 +1,29 @@
+---
+# lynis deb-like setup file
+# https://packages.cisofy.com/community/
+
+- name: DEB - add suport for apt through https
+  ansible.builtin.apt:
+    name: "apt-transport-https"
+    state: present
+  tags: [ config ]
+
+- name: DEB - add CISOfy lynis repository key
+  apt_key:
+    keyserver: "keyserver.ubuntu.com"
+    id: "013baa07180c50a7101097ef9de922f1c2fde6c4"
+    state: present
+  tags: [ config ]
+
+- name: DEB - add CISOfy lynis repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://packages.cisofy.com/community/lynis/deb/ stable main"
+    state: present
+  tags: [ config ]
+
+- name: DEB - install lynis
+  ansible.builtin.apt:
+    name: "lynis"
+    state: present
+    update_cache: yes
+  tags: [ config ]
