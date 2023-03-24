@@ -1,0 +1,25 @@
+---
+# lynis scan tasks
+
+- name: Integration (DevOps) audit system
+  become: true
+  ansible.builtin.shell:
+    cmd: "set -o pipefail ; lynis --devops --auditor 'B.E SecureIT' | tee -a {{ lynis_integration_report }}/{{ lynis_output }}"
+    creates: "{{ lynis_integration_report }}/{{ lynis_output }}"
+    executable: /bin/bash
+  tags: [ lynis_integration ]
+
+- name: Full audit system
+  become: true
+  ansible.builtin.shell:
+    cmd: "set -o pipefail ; lynis audit system --auditor 'B.E SecureIT' | tee -a {{ lynis_full_report }}/{{ lynis_output }}"
+    creates: "{{ lynis_full_report }}/{{ lynis_output }}"
+    executable: /bin/bash
+  tags: [ lynis_full ]
+
+- name: Pentest audit system
+  ansible.builtin.shell:
+    cmd: "set -o pipefail ; lynis --pentest --auditor 'B.E SecureIT' | tee -a {{ lynis_pentest_report }}/{{ lynis_output }}"
+    creates: "{{ lynis_full_report }}/{{ lynis_output }}"
+    executable: /bin/bash
+  tags: [ lynis_pentest ]

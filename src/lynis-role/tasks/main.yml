@@ -1,76 +1,14 @@
 ---
 # tasks file for lynis-role
 
-- name: Install requirements
-  ansible.builtin.package:
-    name: "{{ lynis_requirements }}"
+- name: Import config tasks
+  ansible.builtin.import_tasks: config.yml
   tags: [ config ]
 
-- name: Lynis on debian-like systems
-  ansible.builtin.include_tasks: setup-deb.yml
-  when: ansible_distribution_file_variety == "Debian"
-  tags: [ config ]
+- name: Import scan tasks
+  ansible.builtin.import_tasks: scan.yml
+  tags: [ lynis_scan ]
 
-- name: Lynis on redhat-like systems
-  ansible.builtin.include_tasks: setup-rhel.yml
-  when: ansible_distribution_file_variety == "RedHat"
-  tags: [ config ]
-
-- name: Lynis on suse-like systems
-  ansible.builtin.include_tasks: setup-suse.yml
-  when: ansible_distribution_file_variety == "SUSE"
-  tags: [ config ]
-
-- name: Creates reports directory
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: 0755
-  loop: [ "{{ lynis_devops_report }}", "{{ lynis_full_report }}", "{{ lynis_pentest_report }}" ]
-  tags: [ config ]
-
-- name: Schedule cronjob
-  ansible.builtin.copy:
-    src: lynis_cronjob.sh
-    dest: /etc/cron.weekly
-    owner: root
-    group: root
-    mode: 0744
-  tags: [ config ]
-
-- name: DevOps audit system
-  become: true
-  ansible.builtin.shell:
-    cmd: "set -o pipefail ; lynis --devops --auditor 'B.E SecureIT' | tee -a {{ lynis_devops_report }}/{{ lynis_output }}"
-    creates: "{{ lynis_full_report }}/{{ lynis_output }}"
-    executable: /bin/bash
-  tags: [ lynis_devops ]
-
-- name: Full audit system
-  become: true
-  ansible.builtin.shell:
-    cmd: "set -o pipefail ; lynis audit system --auditor 'B.E SecureIT' | tee -a {{ lynis_full_report }}/{{ lynis_output }}"
-    creates: "{{ lynis_full_report }}/{{ lynis_output }}"
-    executable: /bin/bash
-  tags: [ lynis_full ]
-
-- name: Pentest audit system
-  ansible.builtin.shell:
-    cmd: "set -o pipefail ; lynis --pentest --auditor 'B.E SecureIT' | tee -a {{ lynis_pentest_report }}/{{ lynis_output }}"
-    creates: "{{ lynis_full_report }}/{{ lynis_output }}"
-    executable: /bin/bash
-  tags: [ lynis_pentest ]
-
-- name: Mark the last file in reports directory
-  ansible.builtin.shell:
-    cmd: "ls {{ lynis_full_report }} -Ahtr | tail -n1"
-    executable: /bin/bash
-  register: last_report_file
-  tags: [ report ]
-
-- name: Get full report logs
-  ansible.builtin.fetch:
-    src: "{{ lynis_full_report }}/{{ last_report_file.stdout }}"
-    dest: "~/ansible/reports/lynis/"
-    flat: yes
-  tags: [ report ]
+- name: Import report tasks
+  ansible.builtin.import_tasks: report.yml
+  tags: [ lynis_report ]

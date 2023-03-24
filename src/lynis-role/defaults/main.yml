@@ -2,7 +2,7 @@
 # defaults file for lynis-role
 
 lynis_report_directory: "/opt/lynis_reports"
-lynis_devops_report: "{{ lynis_report_directory }}/devops"
+lynis_integration_report: "{{ lynis_report_directory }}/integration"
 lynis_full_report: "{{ lynis_report_directory }}/full"
 lynis_pentest_report: "{{ lynis_report_directory }}/pentest"
 lynis_output: "{{ inventory_hostname }}-audit-{{ ansible_date_time.iso8601 }}.txt"

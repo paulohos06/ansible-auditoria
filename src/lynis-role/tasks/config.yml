@@ -1,0 +1,33 @@
+---
+# lynis config tasks
+
+- name: Install requirements
+  ansible.builtin.package:
+    name: "{{ lynis_requirements }}"
+
+- name: Lynis on debian-like systems
+  ansible.builtin.include_tasks: setup-deb.yml
+  when: ansible_os_family == "Debian"
+
+- name: Lynis on redhat-like systems
+  ansible.builtin.include_tasks: setup-rhel.yml
+  when: ansible_os_family == "RedHat"
+
+- name: Lynis on suse-like systems
+  ansible.builtin.include_tasks: setup-suse.yml
+  when: ansible_os_family == "Suse"
+
+- name: Creates reports directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  loop: [ "{{ lynis_integration_report }}", "{{ lynis_full_report }}", "{{ lynis_pentest_report }}" ]
+
+- name: Schedule cronjob
+  ansible.builtin.copy:
+    src: lynis_cronjob.sh
+    dest: /etc/cron.weekly
+    owner: root
+    group: root
+    mode: 0744

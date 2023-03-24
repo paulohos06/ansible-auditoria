@@ -1,0 +1,9 @@
+---
+# auditd scan tasks
+
+- name: Generate Report
+  ansible.builtin.shell:
+    cmd: "aureport >> {{ auditd_report_directory }}/{{ auditd_report_output }}"
+    creates: "{{ auditd_report_directory }}/{{ auditd_report_output }}"
+    chdir: "{{ auditd_report_directory }}"
+    executable: /bin/bash

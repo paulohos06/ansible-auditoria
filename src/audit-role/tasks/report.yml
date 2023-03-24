@@ -1,0 +1,14 @@
+---
+# auditd report tasks
+
+- name: Mark the last file in reports directory
+  ansible.builtin.shell:
+    cmd: "ls {{ auditd_report_directory }} -Ahtr | tail -n1"
+    executable: /bin/bash
+  register: last_report_file
+
+- name: Get report logs
+  ansible.builtin.fetch:
+    src: "{{ auditd_report_directory }}/{{ last_report_file.stdout }}"
+    dest: "~/ansible/reports/auditd/"
+    flat: yes

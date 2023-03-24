@@ -19,6 +19,6 @@
 
 - name: SUSE - install lynis
   ansible.builtin.zypper:
-    name: "lynis"
+    name: "lynis-3.0.8-100.noarch"
     state: present
   tags: [ config ]

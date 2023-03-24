@@ -1,0 +1,41 @@
+---
+# lynis reports tasks
+
+- name: LFR - tag the latest full scan report
+  ansible.builtin.shell:
+    cmd: "ls {{ lynis_full_report }} -Ahtr | tail -n1"
+    executable: /bin/bash
+  register: lfr
+
+- name: LIR - tag the latest integration scan report
+  ansible.builtin.shell:
+    cmd: "ls {{ lynis_integration_report }} -Ahtr | tail -n1"
+    executable: /bin/bash
+  register: lir
+
+- name: LPR - tag the latest pentest scan report
+  ansible.builtin.shell:
+    cmd: "ls {{ lynis_pentest_report }} -Ahtr | tail -n1"
+    executable: /bin/bash
+  register: lpr
+
+- name: LFR - get the latest full scan report
+  ansible.builtin.fetch:
+    src: "{{ lynis_full_report }}/{{ lfr.stdout }}"
+    dest: "~/ansible/reports/lynis/full/"
+    flat: yes
+  when: lfr.stdout|length > 0
+
+- name: LIR - get the latest integration scan report
+  ansible.builtin.fetch:
+    src: "{{ lynis_integration_report }}/{{ lir.stdout }}"
+    dest: "~/ansible/reports/lynis/integration/"
+    flat: yes
+  when: lir.stdout|length > 0
+
+- name: LPR - get the latest pentest scan report
+  ansible.builtin.fetch:
+    src: "{{ lynis_pentest_report }}/{{ lpr.stdout }}"
+    dest: "~/ansible/reports/lynis/pentest/"
+    flat: yes
+  when: lpr.stdout|length > 0
