@@ -9,7 +9,6 @@ function check-file-type {
 	return 0;
 }
 
-
 function main {
 	# must have a report type parameter
 	[[ -z "$REPORT_FORMAT" ]] && exit 0;
@@ -26,7 +25,7 @@ function main {
 				endpoint=$(echo $file | cut -d'.' -f1)
 				# HTML format
 				if [[ "$REPORT_FORMAT" == "html" || "$REPORT_FORMAT" == "pdf" ]]; then
-					cat "$LYNIS_REPORT_PATH/$dir/$file" | ansi2html -at "Lynis Report" -s "osx" > "$LYNIS_REPORT_PATH/$dir/html/$endpoint.html"
+					cat "$LYNIS_REPORT_PATH/$dir/$file" | aha --title "Lynis Report" > "$LYNIS_REPORT_PATH/$dir/html/$endpoint.html"
 				fi
 				# PDF format
 				if [[ "$REPORT_FORMAT" == "pdf" ]]; then

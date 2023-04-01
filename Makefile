@@ -2,11 +2,9 @@
 
 default: help
 
-.PHONY: scan
 auditd/scan: # Scan audit logs and generate a summary.
 	ansible-playbook src/playbook.yml --tags auditd_scan
 
-.PHONY: auditd
 auditd/report: # Get auditd reports from nodes.
 	ansible-playbook src/playbook.yml --tags auditd_report
 
